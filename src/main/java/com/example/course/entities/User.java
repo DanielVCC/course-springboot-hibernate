@@ -1,14 +1,20 @@
 package com.example.course.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "table_User")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -19,6 +25,10 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	
+	@JsonIgnore  // o lado que ficar com essa notação não ira alinhar o objeto mapeado
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders;
 	
 	public User() {
 		
@@ -71,6 +81,10 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	@Override
